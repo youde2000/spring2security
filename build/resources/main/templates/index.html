@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta charset="UTF-8">
+    <title>使用Spring Security</title>
+</head>
+<body>
+
+<div sec:authorize="isAuthenticated()">
+    Logged in user: <span sec:authentication="name"></span> |
+    Roles: <span sec:authentication="principal.authorities"></span>
+    <div>
+        <form action="#" th:action="@{/logout}" method="post">
+            <input type="submit" value="Logout" />
+        </form>
+    </div>
+</div>
+
+    <div sec:authorize="!isAuthenticated()">
+        你好，请 <a th:href="@{/userlogin}">登录</a>
+    </div>
+
+            <div sec:authorize="hasAnyRole('ADMIN,'USER')">
+                <a th:href="@{/user/show}">用户信息</a>
+            </div>
+            <div sec:authorize="hasRole('ADMIN')">
+                <a th:href="@{/admin/show}">管理员信息</a>
+            </div>
+
+    <div>
+        <form th:action="@{/logout}" method="post">
+            <input type="submit" value="注销"/>
+        </form>
+    </div>
+</body>
+</html>
